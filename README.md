@@ -1,0 +1,148 @@
+
+# NGX FILTER
+
+![TerraZone](https://terrazone.io/wp-content/uploads/2024/02/Group-1.jpg)
+
+ngx_filter
+    *Note: this module is not distributed with the Nginx source.
+    Installation instructions can be found below.*
+
+
+## Documentation
+
+[Documentation](https://github.com/TerraZone/ngx_filter/blob/main/doc/README.wiki)
+
+
+## Authors
+
+- [@TerraZone](https://www.github.com/terrazone)
+
+
+## Usage/Examples
+
+```javascript
+    location / {
+
+        subs_filter_types text/html text/css text/xml;
+        subs_filter st(\d*).example.com $1.example.com ir;
+        subs_filter a.example.com s.example.com;
+        subs_filter http://$host https://$host;
+    }
+
+  Directives
+    *   subs_filter_types
+
+    *   subs_filter
+
+   subs_filter_types
+    syntax: *subs_filter_types mime-type [mime-types] *
+
+    default: *subs_filter_types text/html*
+
+    context: *http, server, location*
+
+    *subs_filter_types* is used to specify which content types should be
+    checked for *subs_filter*, in addition to *text/html*. The default is
+    only *text/html*.
+
+    This module just works with plain text. If the response is compressed,
+    it can't uncompress the response and will ignore this response. This
+    module can be compatible with gzip filter module. But it will not work
+    with proxy compressed response. You can disable the compressed response
+    like this:
+
+    proxy_set_header Accept-Encoding "";
+
+   subs_filter
+    syntax: *subs_filter source_str destination_str [gior] *
+
+    default: *none*
+
+    context: *http, server, location*
+
+    *subs_filter* allows replacing source string(regular expression or
+    fixed) in the nginx response with destination string. The variables 
+    in matching text is only avaiable under fixed string mode, which means 
+    the matching text could not contain variables if it is a regular 
+    expression. Substitution text may contain variables. More than one 
+    substitution rules per location is supported. 
+    The meaning of the third flags are:
+
+    *   *g*(default): Replace all the match strings.
+
+    *   *i*: Perform a case-insensitive match.
+
+    *   *o*: Just replace the first one.
+
+    *   *r*: The pattern is treated as a regular expression, default is
+        fixed string.
+
+   subs_filter_bypass
+    syntax: *subs_filter_bypass $variable1 ...*
+
+    default: *none*
+
+    context: *http, server, location*
+
+    You can specify several variables with this directive. If at least one
+    of the variable is not empty and is not equal to '0', this substitution
+    filter will be disabled.
+
+  Installation
+    To install, get the source with subversion:
+
+    git clone
+    git://github.com/terrazone/ngx_filter.git
+
+    and then compile nginx with the following option:
+
+    ./configure --add-module=/path/to/module
+
+  Known issue
+    *   Can't substitute the response header.
+
+```
+
+
+## Support
+
+  Reporting a bug
+    Questions/patches may be directed to Oren R, oren@terrazone.io.
+
+
+## License
+
+ This module is licensed under the BSD license.
+
+    Copyright (C) 2024 by TerraZone <support@terrazone.io>.
+
+    All rights reserved.
+
+    Redistribution and use in source and binary forms, with or without
+    modification, are permitted provided that the following conditions are
+    met:
+
+    *
+          Redistributions of source code must retain the above copyright
+
+        notice, this list of conditions and the following disclaimer.
+
+    *
+          Redistributions in binary form must reproduce the above copyright
+
+        notice, this list of conditions and the following disclaimer in the
+        documentation and/or other materials provided with the distribution.
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+    IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+    TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+    PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+    HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+    SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+    TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+    PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+    LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+    NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
