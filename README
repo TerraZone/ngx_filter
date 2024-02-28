@@ -1,5 +1,4 @@
-
-![Hero image](https://terrazone.io/wp-content/uploads/2024/02/Group-1.jpg "TerraZone")
+<img src="https://terrazone.io/wp-content/uploads/2024/02/Group-1.jpg" alt="TerraZone" width="100%"/>
 
 nginx_substitutions_filter
     *Note: this module is not distributed with the Nginx source.
